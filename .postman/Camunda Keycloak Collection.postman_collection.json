@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7415e916-c94f-4ba2-890f-a46522970e58",
+		"_postman_id": "b4d06836-4834-43a8-84b3-06cd59296141",
 		"name": "Camunda Keycloak Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "16855222"
@@ -36,7 +36,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"variables\": {\n        \"solicitacaoGarantia\": {\n            \"value\": \"{\\\"cliente\\\":{\\\"codigo\\\":\\\"123\\\",\\\"nome\\\":\\\"nome cliente\\\",\\\"uf\\\":\\\"SP\\\",\\\"cpfCnpj\\\":\\\"12334576000112\\\"},\\\"produto\\\":{\\\"codigo\\\":\\\"123\\\",\\\"nome\\\":\\\"nome produto\\\",\\\"valorFrete\\\":null,\\\"codigoNotaFiscal\\\":123456789,\\\"valorNotaFiscal\\\":50,\\\"custo\\\":60.00,\\\"isCpl\\\":false,\\\"dataCompra\\\":\\\"2024-10-10\\\",\\\"dataFimGarantia\\\":\\\"2025-10-10\\\"},\\\"loja\\\":{\\\"codigo\\\":\\\"123\\\"},\\\"decisao\\\":{\\\"nivelAnalista\\\":null,\\\"tipoDecisao\\\":\\\"REPROVADA\\\",\\\"justificativaAprovacao\\\":null,\\\"justificativaReprovacao\\\":null,\\\"justificativaMaisInformacoes\\\":null,\\\"isLogisticaReversa\\\":null},\\\"descarte\\\":{\\\"isDescarteAprovado\\\":null,\\\"isGarantiaReprovada\\\":null,\\\"instrucaoDescarte\\\":null,\\\"justificativaReprovacao\\\":null},\\\"numeroSolicitacao\\\":\\\"202501272973\\\",\\\"descricaoProblema\\\":\\\"ta torto\\\",\\\"isColetaViavel\\\":null,\\\"anexoLaudo\\\":null,\\\"imagensProblema\\\":null,\\\"imagensDescarte\\\":null,\\\"status\\\":null,\\\"tarefa\\\":null}\",\n            \"type\": \"Object\",\n            \"valueInfo\": {\n                \"serializationDataFormat\": \"application/json\",\n                \"objectTypeName\": \"br.com.damasio.core.model.domain.SolicitacaoGarantia\"\n            }\n        }\n    },\n    \"businessKey\": \"202501272973\",\n    \"withVariablesInReturn\": false\n}\n",
+					"raw": "{\n    \"variables\": {\n        \"aVariable\": {\n            \"value\": \"aValue\",\n            \"type\": \"String\"\n        }\n    },\n    \"businessKey\": \"123\",\n    \"withVariablesInReturn\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"

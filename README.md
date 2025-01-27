@@ -1,4 +1,4 @@
-# garantia-bpms-camunda
+# Camunda 7 with Keycloak
 
 ### Links uteis
     - http://localhost:8080/ 
