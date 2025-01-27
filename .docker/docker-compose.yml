@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  keycloak:
+    container_name: camunda_keycloak
+    image: quay.io/keycloak/keycloak:26.1
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_HTTP_RELATIVE_PATH=/auth
+    ports:
+      - "9001:8443"
+      - "9000:8080"
+    command:
+      - start-dev
+      - --features
+      - admin-fine-grained-authz
+    volumes:
+      - ../.docker/keycloak:/opt/keycloak/data:rw
+    networks:
+      - camunda_network
+
+
+  postgres:
+    image: postgres:17.2
+    container_name: camunda_postgres
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=camunda
+    ports:
+      - "9002:5432"
+    restart: always
+    networks:
+      - camunda_network
+
+networks:
+  camunda_network:
+    driver: bridge
+
+
+

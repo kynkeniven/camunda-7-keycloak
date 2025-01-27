@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+feign.client.config.logger.level: FULL
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:9002/camunda
+    username: postgres
+    password: postgres
+
+#camunda
+camunda:
+  bpm:
+    generic-properties:
+      properties:
+        historyTimeToLive: P10D
+
+keycloak:
+  url: http://localhost:9000/auth
+  client:
+    realm: camunda
+    id: camunda-identity-provider
+    secret: G1RZe6zORs6Gavi3q6DxR0UFAA6Je4qi
+
+
+

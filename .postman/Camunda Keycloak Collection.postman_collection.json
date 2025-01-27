@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "7415e916-c94f-4ba2-890f-a46522970e58",
+		"name": "Camunda Keycloak Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16855222"
+	},
+	"item": [
+		{
+			"name": "Start Process",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearerToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=7D68659EB2AAE6716F0F5083A1F19311"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"variables\": {\n        \"solicitacaoGarantia\": {\n            \"value\": \"{\\\"cliente\\\":{\\\"codigo\\\":\\\"123\\\",\\\"nome\\\":\\\"nome cliente\\\",\\\"uf\\\":\\\"SP\\\",\\\"cpfCnpj\\\":\\\"12334576000112\\\"},\\\"produto\\\":{\\\"codigo\\\":\\\"123\\\",\\\"nome\\\":\\\"nome produto\\\",\\\"valorFrete\\\":null,\\\"codigoNotaFiscal\\\":123456789,\\\"valorNotaFiscal\\\":50,\\\"custo\\\":60.00,\\\"isCpl\\\":false,\\\"dataCompra\\\":\\\"2024-10-10\\\",\\\"dataFimGarantia\\\":\\\"2025-10-10\\\"},\\\"loja\\\":{\\\"codigo\\\":\\\"123\\\"},\\\"decisao\\\":{\\\"nivelAnalista\\\":null,\\\"tipoDecisao\\\":\\\"REPROVADA\\\",\\\"justificativaAprovacao\\\":null,\\\"justificativaReprovacao\\\":null,\\\"justificativaMaisInformacoes\\\":null,\\\"isLogisticaReversa\\\":null},\\\"descarte\\\":{\\\"isDescarteAprovado\\\":null,\\\"isGarantiaReprovada\\\":null,\\\"instrucaoDescarte\\\":null,\\\"justificativaReprovacao\\\":null},\\\"numeroSolicitacao\\\":\\\"202501272973\\\",\\\"descricaoProblema\\\":\\\"ta torto\\\",\\\"isColetaViavel\\\":null,\\\"anexoLaudo\\\":null,\\\"imagensProblema\\\":null,\\\"imagensDescarte\\\":null,\\\"status\\\":null,\\\"tarefa\\\":null}\",\n            \"type\": \"Object\",\n            \"valueInfo\": {\n                \"serializationDataFormat\": \"application/json\",\n                \"objectTypeName\": \"br.com.damasio.core.model.domain.SolicitacaoGarantia\"\n            }\n        }\n    },\n    \"businessKey\": \"202501272973\",\n    \"withVariablesInReturn\": false\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{camundaRestUrl}}/process-definition/key/:processDefinitionKey/start",
+					"host": [
+						"{{camundaRestUrl}}"
+					],
+					"path": [
+						"process-definition",
+						"key",
+						":processDefinitionKey",
+						"start"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "processDefinitionKey",
+							"value": "DemoProcess"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Keycloak Token Generator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"// Pegue o valor de \"access_token\" e armazene na variável bearerToken",
+							"pm.collectionVariables.set(\"bearerToken\", jsonData.access_token);",
+							"",
+							"// Opcional: Log para verificar se o valor foi setado",
+							"console.log(\"Bearer Token setado: \" + jsonData.access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "camunda-identity-provider",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "G1RZe6zORs6Gavi3q6DxR0UFAA6Je4qi",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "camunda",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "camunda",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{keycloakUrl}}/auth/realms/camunda/protocol/openid-connect/token",
+					"host": [
+						"{{keycloakUrl}}"
+					],
+					"path": [
+						"auth",
+						"realms",
+						"camunda",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "camundaRestUrl",
+			"value": "http://localhost:8080/engine-rest",
+			"type": "string"
+		},
+		{
+			"key": "keycloakUrl",
+			"value": "http://localhost:9000",
+			"type": "string"
+		},
+		{
+			"key": "bearerToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

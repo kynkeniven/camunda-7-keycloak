@@ -1,0 +1,121 @@
+server:
+  port: ${SERVER_PORT}
+  shutdown: "graceful"
+  servlet:
+    context-path: /
+
+spring:
+  cloud:
+    openfeign:
+      okhttp:
+        enabled: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    database: POSTGRESQL
+  jackson:
+    date-format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    default-property-inclusion: non_null
+    deserialization:
+      fail-on-ignored-properties: false
+    serialization:
+      write-dates-as-timestamps: false
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: ${keycloak.client.id}
+            client-secret: ${keycloak.client.secret}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            scope: openid,profile,email
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.url}/realms/${keycloak.client.realm}
+            authorization-uri: ${keycloak.url}/realms/${keycloak.client.realm}/protocol/openid-connect/auth
+            user-info-uri: ${keycloak.url}/realms/${keycloak.client.realm}/protocol/openid-connect/userinfo
+            token-uri: ${keycloak.url}/realms/${keycloak.client.realm}/protocol/openid-connect/token
+            jwk-set-uri: ${keycloak.url}/realms/${keycloak.client.realm}/protocol/openid-connect/certs
+            logout-uri: ${keycloak.url}/realms/${keycloak.client.realm}/protocol/openid-connect/logout
+            user-name-attribute: preferred_username
+  jersey:
+    application-path: /engine-rest
+
+#camunda
+camunda:
+  bpm:
+    authorization:
+      enabled: true
+    filter:
+      create: All tasks
+    generic-properties:
+      properties:
+        historyTimeToLive: ${CAMUNDA_HISTORY_TIME_TO_LIVE}
+    default-serialization-format: application/json
+    job-execution:
+      active: true
+      lockTimeInMillis: 1200000
+      maximum-pool-size: 5
+      job-execution.core-pool-size: 5
+
+rest.security:
+  enabled: true
+  provider: keycloak
+  required-audience: camunda-rest-api
+
+plugin.identity.keycloak:
+  keycloakIssuerUrl: ${keycloak.url}/realms/${keycloak.client.realm}
+  keycloakAdminUrl: ${keycloak.url}/admin/realms/${keycloak.client.realm}
+  clientId: ${keycloak.client.id}
+  clientSecret: ${keycloak.client.secret}
+  useEmailAsCamundaUserId: false
+  useUsernameAsCamundaUserId: true
+  useGroupPathAsCamundaGroupId: true
+  enforceSubgroupsInGroupQuery: true
+  administratorGroupName: camunda-admin
+  disableSSLCertificateValidation: true
+
+#Variaveis de configuração do Keycloak
+keycloak:
+  client:
+    realm: ${KEYCLOAK_CLIENT_REALM}
+    id: ${KEYCLOAK_CLIENT_ID}
+    secret: ${KEYCLOAK_CLIENT_SECRET}
+  url: ${KEYCLOAK_URL}
+
+##HEALTHCHECK
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    show-details: 'always'
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+
+#FEIGN CLIENT
+feign.client.config.logger.level: ${FEIGN_CLIENT_LOGGER_LEVEL}
+
+#SWAGGER-UI
+springdoc:
+  swagger-ui:
+    enabled: true
+    groupsOrder: ASC
+    docExpansion: none
+    displayRequestDuration: true
+    operationsSorter: method
+    tagsSorter: alpha
